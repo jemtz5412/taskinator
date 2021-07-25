@@ -1,5 +1,6 @@
 var formEl = document.querySelector("#task-form");
 var tasksToDoEl = document.querySelector("#tasks-to-do");
+var taskIdCounter = 0;
 
 var taskFormHandler = function(event) {
   event.preventDefault();
@@ -25,9 +26,51 @@ var taskFormHandler = function(event) {
 };
 
 var createTaskEl = function (taskDataObj) {
+
+// create task actions
+var createTaskActions = function(taskID) {
+    var actionContainerEl = document.createElement("div");
+    actionContainerEl.className = "task-actions";
+
+    //create edit button
+    var editButtonEl = document.createElement("button");
+    editButtonEl.textContent = "Edit";
+    editButtonEl.className = "btn edit-btn";
+    editButtonEl.setAttribute("data-task-id", taskID);
+
+    actionContainerEl.appendChild(editButtonEl);
+
+
+    // create delete button
+    var deleteButtonEl = document.createElement("button");
+    deleteButtonEl.textContent = "Delete";
+    deleteButtonEl.classname = "btn delete-btn";
+    deleteButtonEl.setAttribute("data-task-id", taskID);
+
+    actionContainerEl.appendChild(deleteButtonEl);
+
+    var statusSelectEl = document.createElement("select");
+    statusSelectEl.className = "select-status";
+    statusSelectEl.setAttribute("name", "status-change");
+    statusSelectEl.setAttribute("data-task-id", taskId);
+    var statusChoices = ["To Do", "In Progress", "Completed"];
+
+    for (var i = 0; i < statusChoices.length; i++) {
+        
+    }
+
+    actionContainerEl.appendChild(statusSelectEl);
+
+    return actionContainerEl;
+
+}
+
   // create list item
   var listItemEl = document.createElement("li");
   listItemEl.className = "task-item";
+
+  // add task id as a custom attribute
+  listItemEl.setAttribute("data-task-id", taskIdCounter);
 
   // create div to hold task info and add to list item
   var taskInfoEl = document.createElement("div");
@@ -37,6 +80,9 @@ var createTaskEl = function (taskDataObj) {
 
   // add entire list item to list
   tasksToDoEl.appendChild(listItemEl);
+
+  // increase task counter for next unique id
+  taskIdCounter++;
 };
 
 formEl.addEventListener("submit", taskFormHandler);
